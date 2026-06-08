@@ -45,15 +45,15 @@ public class EnvironmentalMetrics {
      */
     public String getImpactDescription() {
         if (carbonEmissionsGrams < 1.0) {
-            return "Minimal environmental impact - Great job! 🌱";
+            return "Minimal environmental impact - Great job!";
         } else if (carbonEmissionsGrams < 10.0) {
-            return "Low environmental impact - Good code efficiency! ♻️";
+            return "Low environmental impact - Good code efficiency!";
         } else if (carbonEmissionsGrams < 50.0) {
-            return "Moderate environmental impact - Room for optimization 🌍";
+            return "Moderate environmental impact - Room for optimization.";
         } else if (carbonEmissionsGrams < 100.0) {
-            return "High environmental impact - Optimization recommended! ⚠️";
+            return "High environmental impact - Optimization recommended!";
         } else {
-            return "Very high environmental impact - Urgent optimization needed! 🚨";
+            return "Very high environmental impact - Urgent optimization needed!";
         }
     }
 

@@ -230,10 +230,16 @@ public class CodeAnalyzer {
         
         for (File file : files) {
             if (file.isDirectory()) {
-                // Skip common directories
-                if (file.getName().equals("target") || 
-                    file.getName().equals("node_modules") ||
-                    file.getName().equals(".git")) {
+                // Skip common non-source directories
+                String dirName = file.getName();
+                if (dirName.equals("target")       ||
+                    dirName.equals("node_modules") ||
+                    dirName.equals(".git")          ||
+                    dirName.equals("ecocode")       ||
+                    dirName.equals("test")          ||
+                    dirName.equals("tests")         ||
+                    dirName.equals("build")         ||
+                    dirName.equals("out")) {
                     continue;
                 }
                 analyzeDirectory(file, projectReport);

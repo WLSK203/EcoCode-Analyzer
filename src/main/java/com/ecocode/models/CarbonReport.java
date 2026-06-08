@@ -51,7 +51,9 @@ public class CarbonReport {
     }
 
     /**
-     * Find the function with highest carbon emissions
+     * Find the function with highest carbon emissions.
+     * Only marks a hotspot if the worst function is genuinely problematic
+     * (i.e., meaningfully worse than its peers, not just tied at near-zero).
      */
     public void identifyWorstFunction() {
         if (functionAnalyses.isEmpty()) {
@@ -59,11 +61,31 @@ public class CarbonReport {
             return;
         }
 
+        // Only flag a hotspot if there's a function with genuinely high complexity
         FunctionAnalysis worst = functionAnalyses.stream()
                 .max((a, b) -> Double.compare(a.getCarbonEmissions(), b.getCarbonEmissions()))
                 .orElse(null);
 
-        worstFunction = worst != null ? worst.getFunctionName() : "None";
+        // Only flag a hotspot if the worst function has genuinely visible emissions
+        // (5e-5 = 0.0001 when rounded to 4 decimal places -- the display precision)
+        if (worst == null || worst.getCarbonEmissions() < 5e-5) {
+            worstFunction = "None";
+            return;
+        }
+
+        // Only show hotspot if the worst function is meaningfully worse than the average
+        double avgEmissions = functionAnalyses.stream()
+                .mapToDouble(FunctionAnalysis::getCarbonEmissions).average().orElse(0);
+
+        if (functionAnalyses.size() == 1) {
+            // Single function -- always name it
+            worstFunction = worst.getFunctionName();
+        } else if (worst.getCarbonEmissions() > avgEmissions * 2) {
+            // Worst is at least 2x the average -- genuinely bad hotspot
+            worstFunction = worst.getFunctionName();
+        } else {
+            worstFunction = "None (all functions have similar efficiency)";
+        }
     }
 
     // Getters and Setters
@@ -135,11 +157,11 @@ public class CarbonReport {
      * Get a summary rating based on total emissions
      */
     public String getEmissionRating() {
-        if (totalCarbonEmissions < 1.0) return "Excellent ⭐⭐⭐⭐⭐";
-        if (totalCarbonEmissions < 5.0) return "Good ⭐⭐⭐⭐";
-        if (totalCarbonEmissions < 10.0) return "Average ⭐⭐⭐";
-        if (totalCarbonEmissions < 50.0) return "Poor ⭐⭐";
-        return "Very Poor ⭐";
+        if (totalCarbonEmissions < 1.0)  return "Excellent  [5/5]";
+        if (totalCarbonEmissions < 5.0)  return "Good       [4/5]";
+        if (totalCarbonEmissions < 10.0) return "Average    [3/5]";
+        if (totalCarbonEmissions < 50.0) return "Poor       [2/5]";
+        return                                  "Very Poor  [1/5]";
     }
 
     @Override
