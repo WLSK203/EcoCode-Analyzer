@@ -157,18 +157,18 @@ public class Main {
                 CarbonReport report = analyzer.analyzeFile(f.getAbsolutePath());
                 stopSpinner();
 
-                // Best complexity from function analyses
+                // Dominant complexity = worst (highest) across all functions in the file
                 String complexity = report.getFunctionAnalyses().isEmpty() ? "O(?)"
                     : report.getFunctionAnalyses().stream()
                         .map(fa -> fa.getComplexityResult().getTimeComplexity().getNotation())
-                        .min(Comparator.comparingInt(Main::complexityOrder))
+                        .max(Comparator.comparingInt(Main::complexityOrder))
                         .orElse("O(?)");
 
                 results.add(new AlgoResult(
                     stripExtension(f.getName()),
                     complexity,
                     report.getTotalCarbonEmissions(),
-                    report.getEmissionRating()
+                    complexityRating(complexity)
                 ));
             } catch (Exception e) {
                 stopSpinner();
@@ -232,10 +232,6 @@ public class Main {
             .bold().fg(RED).a(worst.name).reset()
             .fg(WHITE).a("  (" + worst.complexity + ")  -- most carbon").reset());
         System.out.println();
-        System.out.println(ansi().fg(CYAN)
-            .a(String.format("  [$] Potential savings: %.4f gCO2 if you replaced %s with %s",
-                savings, worst.name, best.name)).reset());
-        System.out.println();
     }
 
     /** Locate the sample-code directory via multiple strategies */
@@ -276,6 +272,21 @@ public class Main {
             case "O(2^n)"     -> 6;
             case "O(n!)"      -> 7;
             default           -> 8;
+        };
+    }
+
+    /** Map complexity notation to a human-readable performance rating */
+    private static String complexityRating(String notation) {
+        return switch (notation) {
+            case "O(1)"       -> "Optimal   [5/5]";
+            case "O(log n)"   -> "Excellent [5/5]";
+            case "O(n)"       -> "Good      [4/5]";
+            case "O(n log n)" -> "Good      [4/5]";
+            case "O(n^2)"     -> "Poor      [2/5]";
+            case "O(n^3)"     -> "Bad       [1/5]";
+            case "O(2^n)"     -> "Critical  [0/5]";
+            case "O(n!)"      -> "Critical  [0/5]";
+            default           -> "Unknown";
         };
     }
 
@@ -432,9 +443,9 @@ public class Main {
             .a("          Making Software Environmentally Conscious        ").reset());
         printDivider('=', GREEN);
         System.out.println();
-        System.out.println(ansi().fg(GREEN).a("  (*) ").reset()
-            .fg(WHITE).a("Developed for ").bold().a("VITyarthi").reset()
-            .fg(WHITE).a("  |  Java  |  IEEE Carbon Model").reset());
+        System.out.println(ansi().fg(244).a("  Created by ").reset()
+            .bold().fg(CYAN).a("Alok Sharma").reset()
+            .fg(244).a("  --  linkedin.com/in/alok-sharma-b17550321").reset());
         System.out.println();
     }
 
@@ -518,8 +529,6 @@ public class Main {
         System.out.println();
         System.out.println(ansi().bold().fg(GREEN).a("  EcoCode Analyzer  v1.0.0").reset());
         System.out.println(ansi().fg(WHITE).a("  Carbon Footprint Analysis for Source Code").reset());
-        System.out.println();
-        System.out.println(ansi().fg(WHITE).a("  Developed for VITyarthi  |  Making software greener").reset());
         System.out.println();
     }
 

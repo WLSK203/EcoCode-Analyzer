@@ -43,10 +43,10 @@ public class ReportFormatter {
 
         // Carbon footprint
         sb.append(sectionHeader("CARBON FOOTPRINT"));
-        sb.append(formatCarbonScore(report.getTotalCarbonEmissions()));
+        sb.append(formatCarbonScore(report));
         sb.append(metricRow("Estimated CPU Time", String.format("%.2f ms", report.getTotalEstimatedTime())));
         sb.append(metricRow("Energy Consumption", String.format("%.6f Wh", report.getTotalEnergyConsumption())));
-        sb.append(metricRow("Rating",            report.getEmissionRating()));
+        sb.append(metricRow("Rating",             report.getEmissionRating()));
         sb.append("\n");
 
         // Environmental equivalents
@@ -126,21 +126,40 @@ public class ReportFormatter {
     // Carbon score with ASCII gauge bar
     // -------------------------------------------------------------------------
 
-    private String formatCarbonScore(double carbonGrams) {
+    private String formatCarbonScore(CarbonReport report) {
+        double carbonGrams = report.getTotalCarbonEmissions();
+        Complexity worst   = report.getWorstComplexity();
+
+        // Derive color, label, and gauge fill from worst complexity — not raw grams
         Ansi.Color color;
         String levelLabel;
         int filled;
 
-        if (carbonGrams < 1.0) {
-            color = GREEN;              levelLabel = "Excellent"; filled = 1;
-        } else if (carbonGrams < 10.0) {
-            color = CYAN;               levelLabel = "Good";      filled = 3;
-        } else if (carbonGrams < 50.0) {
-            color = YELLOW;             levelLabel = "Moderate";  filled = 5;
-        } else if (carbonGrams < 100.0) {
-            color = Ansi.Color.MAGENTA; levelLabel = "High";      filled = 7;
-        } else {
-            color = RED;               levelLabel = "Critical";  filled = 10;
+        switch (worst) {
+            case O_1 -> {
+                color = GREEN;   levelLabel = "Optimal";   filled = 1;
+            }
+            case O_LOG_N -> {
+                color = GREEN;   levelLabel = "Excellent";  filled = 2;
+            }
+            case O_N -> {
+                color = CYAN;    levelLabel = "Good";       filled = 3;
+            }
+            case O_N_LOG_N -> {
+                color = CYAN;    levelLabel = "Good";       filled = 4;
+            }
+            case O_N_SQUARED -> {
+                color = YELLOW;  levelLabel = "Poor";       filled = 6;
+            }
+            case O_N_CUBED -> {
+                color = Ansi.Color.MAGENTA; levelLabel = "Bad"; filled = 8;
+            }
+            case O_2_POW_N, O_N_FACTORIAL -> {
+                color = RED;     levelLabel = "Critical";   filled = 10;
+            }
+            default -> {
+                color = WHITE;   levelLabel = "Unknown";   filled = 0;
+            }
         }
 
         // Pure ASCII gauge: # for filled, . for empty

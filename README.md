@@ -1,332 +1,417 @@
-# 🌱 EcoCode Analyzer
+# EcoCode Analyzer
 
 > **Carbon Footprint Analysis for Source Code**  
-> *Making software environmentally conscious, one line at a time.*
+> Detect algorithmic inefficiencies. Estimate carbon emissions. Write greener software.
 
-[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://www.oracle.com/java/)
-[![Maven](https://img.shields.io/badge/Maven-3.8+-blue.svg)](https://maven.apache.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+**Created by [Alok Sharma](https://www.linkedin.com/in/alok-sharma-b17550321/)**
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
-- [The Problem](#the-problem)
-- [The Solution](#the-solution)
 - [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation & Setup](#installation--setup)
-- [Usage](#usage)
 - [How It Works](#how-it-works)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Build](#build)
+  - [Run](#run)
+- [Usage](#usage)
+  - [Interactive Mode](#interactive-mode)
+  - [Command-Line Mode](#command-line-mode)
+  - [Demo Mode](#demo-mode)
 - [Sample Output](#sample-output)
+- [Algorithm Comparison](#algorithm-comparison)
 - [Project Structure](#project-structure)
+- [Technology Stack](#technology-stack)
+- [Carbon Calculation Model](#carbon-calculation-model)
 - [Testing](#testing)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
+- [Future Roadmap](#future-roadmap)
+- [License](#license)
 
 ---
 
-## 🌍 Overview
+## Overview
 
-**EcoCode Analyzer** is an innovative static code analysis tool that evaluates the **environmental impact** of software by:
-- Analyzing source code complexity
-- Detecting algorithms and calculating time complexity (Big O notation)
-- Estimating CPU usage and execution time
-- **Computing carbon emission scores** in grams of CO₂
-- Providing actionable optimization suggestions to reduce environmental impact
+EcoCode Analyzer is a Java-based command-line tool that statically analyzes source code to detect algorithmic complexity, estimate CPU energy consumption, and calculate the resulting carbon dioxide emissions — all without executing the code.
 
-This project addresses the growing concern of software's carbon footprint in an era of climate crisis.
+It is built on the IEEE research model for software energy estimation and targets developers who want to understand and reduce the environmental cost of their code.
 
----
 
-## ⚠️ The Problem
-
-### Software's Hidden Environmental Cost
-
-1. **Energy Consumption**: Software runs on servers and devices that consume massive amounts of electricity
-2. **Inefficient Algorithms**: Algorithms with poor time complexity (like O(n²) or O(2^n)) require exponentially more CPU cycles
-3. **Carbon Emissions**: More CPU usage = higher energy consumption = more carbon emissions
-4. **Lack of Awareness**: Developers rarely know the environmental cost of their code
-
-**Statistics:**
-- Data centers consume **1% of global electricity**
-- Software inefficiency contributes to **unnecessary carbon emissions**
-- A single inefficient algorithm running millions of times can emit **kilograms of CO₂**
+**Domain:** Sustainable Software Engineering / Green Computing  
+**Alignment:** UN Sustainable Development Goal 13 — Climate Action
 
 ---
 
-## ✅ The Solution
+## Features
 
-EcoCode Analyzer provides developers with:
-
-1. **Automated Complexity Detection**: Analyzes loops, recursion, and algorithm patterns
-2. **Carbon Emission Calculation**: Converts computational cost to environmental impact
-3. **Optimization Suggestions**: Actionable recommendations with potential carbon savings
-4. **Environmental Metrics**: Real-world equivalents (e.g., "equivalent to driving 150 meters")
-5. **Historical Tracking**: Monitor improvements over time
-
----
-
-## ✨ Features
-
-### Core Functionality
-
-- ✅ **Multi-Language Support**: Java (full), Python, JavaScript, C/C++ (basic)
-- ✅ **Complexity Detection**: Automatic Big O analysis (O(1), O(log n), O(n), O(n²), O(n³), O(2^n))
-- ✅ **Carbon Calculation**: Scientific formula-based emission estimation
-- ✅ **Pattern Recognition**: Detects sorting, searching, and recursive algorithms
-- ✅ **Optimization Engine**: Suggests improvements with savings calculations
-- ✅ **Environmental Equivalents**: Converts emissions to driving distance, tree absorption, etc.
-
-### Analysis Capabilities
-
-- 📊 Function-level complexity analysis
-- 📈 Project-wide carbon footprint
-- 🎯 Hotspot identification (worst functions)
-- 💡 Priority-ranked suggestions (Low, Medium, High, Critical)
-- 📋 Detailed reports with color-coded output
+| Feature | Description |
+|---------|-------------|
+| **Complexity Detection** | Automatically detects Big-O time complexity (O(1) to O(n!)) via AST analysis |
+| **Carbon Estimation** | Converts CPU time to energy (Wh) and then to CO2 emissions (gCO2) |
+| **Function-Level Analysis** | Breaks down emissions per function/method |
+| **Hotspot Detection** | Identifies the single worst-performing function in a file |
+| **Optimization Suggestions** | Recommends concrete improvements with estimated % savings |
+| **Environmental Equivalents** | Translates emissions to driving distance, tree-days, phone charges |
+| **Project Analysis** | Scans an entire directory and reports on all Java files |
+| **Demo / Algorithm Comparison** | Side-by-side carbon ranking of 7 sample algorithms |
+| **Export Report** | Saves a plain-text report to disk after any analysis |
+| **Interactive Menu** | Full terminal UI with ANSI colors and a progress spinner |
 
 ---
 
-## 🛠️ Technologies Used
+## How It Works
 
-| Technology | Purpose |
-|------------|---------|
-| **Java 17** | Core programming language |
-| **Maven** | Build and dependency management |
-| **JavaParser** | Parsing Java source code into AST |
-| **ANTLR 4** | Multi-language grammar support |
-| **SQLite** | Embedded database for analysis history |
-| **Gson** | JSON processing for data files |
-| **JUnit 5** | Unit testing framework |
-| **Jansi** | ANSI colors for terminal output |
+```
+Source Code (.java)
+       |
+       v
+  Java Parser (AST)
+       |
+       v
+  Complexity Detector
+  - Loop nesting depth
+  - Recursion detection
+  - Divide-and-conquer patterns
+  - Known algorithm name matching
+       |
+       v
+  Carbon Calculator
+  1. Complexity -> estimated operations (for n = 1000)
+  2. Operations -> CPU cycles
+  3. CPU cycles -> execution time (seconds)
+  4. Execution time * CPU power (65W) -> energy (Wh)
+  5. Energy * carbon intensity (475 gCO2/kWh) -> CO2 (grams)
+       |
+       v
+  Optimization Engine
+  - Suggests algorithm replacements
+  - Recommends data structure changes
+  - Identifies caching opportunities
+       |
+       v
+  Report Formatter
+  - ANSI-colored terminal output
+  - Ranked function table
+  - Suggestion cards
+  - Environmental impact summary
+```
 
 ---
 
-## 📦 Installation & Setup
+## Getting Started
 
 ### Prerequisites
 
-- **Java 17** or higher ([Download](https://www.oracle.com/java/technologies/downloads/))
-- **Maven 3.8** or higher ([Download](https://maven.apache.org/download.cgi))
-- Git (optional, for cloning)
+| Requirement | Version |
+|-------------|---------|
+| Java JDK | 17 or higher |
+| Apache Maven | 3.6+ |
 
-### Steps
+### Build
 
-1. **Clone or Download the Project**
-   ```bash
-   git clone <repository-url>
-   cd VITyarthi_Java
-   ```
+```bash
+# Clone or download the project
+cd Eco-Code
 
-2. **Build the Project**
-   ```bash
-   mvn clean package
-   ```
+# Build the fat JAR (includes all dependencies)
+mvn clean package -q
 
-3. **Run the Application**
-   ```bash
-   # Interactive mode
-   java -jar target/ecocode-analyzer.jar --interactive
+# The runnable JAR will be at:
+# target/ecocode-analyzer.jar
+```
 
-   # Analyze a specific file
-   java -jar target/ecocode-analyzer.jar path/to/YourCode.java
-   ```
+> **Note:** If Maven is not on your PATH, you can compile manually using `javac` and update the existing JAR with `jar uf`. See [Manual Build](#manual-build) below.
+
+#### Manual Build (no Maven required)
+
+```powershell
+$javac = "C:\Program Files\Java\jdk-25.0.2\bin\javac.exe"
+$jar   = "C:\Program Files\Java\jdk-25.0.2\bin\jar.exe"
+
+& $javac --release 17 -cp "target\ecocode-analyzer.jar" -d "target\classes" `
+    "src\main\java\com\ecocode\Main.java" `
+    "src\main\java\com\ecocode\ui\ReportFormatter.java"
+
+& $jar uf "target\ecocode-analyzer.jar" -C "target\classes" "com/ecocode/Main.class"
+```
+
+### Run
+
+```bash
+# Interactive menu (recommended)
+java -jar target/ecocode-analyzer.jar
+
+# Analyze a single file directly
+java -jar target/ecocode-analyzer.jar path/to/YourFile.java
+```
+
+> **Windows Terminal users:** The tool auto-configures UTF-8 output. Run directly from Windows Terminal for best results.
 
 ---
 
-## 🚀 Usage
-
-### Command-Line Options
-
-```bash
-# Interactive mode with menu
-java -jar ecocode-analyzer.jar --interactive
-
-# Analyze a single file
-java -jar ecocode-analyzer.jar MyCode.java
-
-# Show help
-java -jar ecocode-analyzer.jar --help
-
-# Show version
-java -jar ecocode-analyzer.jar --version
-```
+## Usage
 
 ### Interactive Mode
 
-When you run in interactive mode, you'll see a menu:
+Launch without arguments to enter the full interactive menu:
 
 ```
-┌─ MAIN MENU ─────────────────────────────────────┐
-│                                                  │
-│  1. Analyze Single File                         │
-│  2. Analyze Project Directory                   │
-│  3. About                                        │
-│  4. Help                                         │
-│  5. Exit                                         │
-│                                                  │
-└──────────────────────────────────────────────────┘
+  ==========================================================
+         EcoCode Analyzer  v1.0.0
+         Carbon Footprint Analysis for Source Code
+         Making Software Environmentally Conscious
+  ==========================================================
+
+  
+
+  ----------------------------------------------------------
+  MAIN MENU
+  ----------------------------------------------------------
+  [1]  Analyze Single File         scan one source file
+  [2]  Analyze Project Directory   scan all files in a folder
+  [3]  Demo -- Compare Algorithms  side-by-side comparison
+  [4]  About                       project info & methodology
+  [5]  Help                        usage & supported languages
+  [6]  Exit                        quit EcoCode Analyzer
+  ----------------------------------------------------------
+  >
 ```
 
-### Example: Analyzing a File
+**Option 1 — Analyze Single File**  
+Enter the path to any `.java` file. The tool parses it, detects complexity for each method, and prints a full report with a carbon gauge bar, function table, suggestion cards, and environmental equivalents. You are then prompted to optionally save the report to a `.txt` file.
+
+**Option 2 — Analyze Project Directory**  
+Enter the path to a project root. The tool recursively scans all `.java` files (skipping `target/`, `build/`, `.git/`, and similar directories), produces a report per file, and prints a summary of the whole project's total emissions.
+
+**Option 3 — Demo Mode**  
+Automatically analyzes all 7 bundled sample algorithms and prints a ranked comparison table (see [Demo Mode](#demo-mode) section).
+
+### Command-Line Mode
 
 ```bash
-java -jar ecocode-analyzer.jar src/main/resources/sample-code/BubbleSort.java
+# Analyze a single file — no menu, prints report and exits
+java -jar target/ecocode-analyzer.jar src/main/resources/sample-code/BubbleSort.java
+
+# Show help
+java -jar target/ecocode-analyzer.jar --help
+
+# Show version
+java -jar target/ecocode-analyzer.jar --version
+```
+
+### Demo Mode
+
+Select option `3` in the menu to see a live comparison of all sample algorithms:
+
+```
+  ==========================================================
+  ALGORITHM COMPARISON -- Carbon Footprint Ranking
+  ==========================================================
+
+  Rank  Algorithm              Complexity        Carbon(gCO2)    Rating
+  ------------------------------------------------------------------------------
+  1.    HashMapLookup          O(1)              0.0000          Excellent  [5/5]
+  2.    BinarySearch           O(log n)          0.0000          Excellent  [5/5]
+  3.    LinearSearch           O(n)              0.0000          Excellent  [5/5]
+  4.    QuickSort              O(n log n)        0.0000          Excellent  [5/5]
+  5.    BubbleSort             O(n^2)            0.0001          Excellent  [5/5]
+  6.    Fibonacci              O(2^n)            0.0312          Excellent  [5/5]
+  7.    MatrixMultiply         O(n^3)            0.1226          Excellent  [5/5]
+
+  ----------------------------------------------------------
+  -- VERDICT --
+  ----------------------------------------------------------
+  [+] Best algorithm:  HashMapLookup  (O(1))  -- least carbon
+  [!] Worst algorithm: MatrixMultiply (O(n^3)) -- most carbon
+
+  [$] Potential savings: 0.1226 gCO2 if you replaced MatrixMultiply with HashMapLookup
 ```
 
 ---
 
-## 🔬 How It Works
+## Sample Output
 
-### 1. Code Parsing
-
-- Uses **JavaParser** to build Abstract Syntax Tree (AST)
-- Identifies functions, loops, conditionals, and recursive calls
-
-### 2. Complexity Detection
+Analyzing `BubbleSort.java`:
 
 ```
-Detection Methods:
-├── Loop Nesting Analysis (O(n), O(n²), O(n³))
-├── Recursion Pattern Matching (O(2^n), O(n!))
-├── Divide-and-Conquer Detection (O(n log n))
-└── Known Algorithm Recognition (Sorting, Searching)
-```
+  ==========================================================
+       EcoCode Analyzer v1.0.0  --  Carbon Analysis
+  ==========================================================
 
-### 3. Carbon Emission Calculation
+  Analyzing: BubbleSort.java
 
-**Scientific Formula:**
+  [/] Analyzing code...  [OK] Analysis complete
 
-```
-Carbon Emission (gCO₂) = CPU Time × Power Consumption × Carbon Intensity
+  ==========================================================
+       EcoCode Analyzer -- Carbon Emission Report
+  ==========================================================
 
-Where:
-- CPU Time = f(complexity, input_size) in seconds
-- Power Consumption = 65W (average desktop CPU)
-- Carbon Intensity = 475 gCO₂/kWh (global average)
-```
+  File:               BubbleSort.java
+  Lines of Code:      50
 
-**Detailed Steps:**
+  -- CARBON FOOTPRINT --
 
-1. **Estimate Operations**: Based on Big O notation
-   - O(n) with n=1000 → 1000 operations
-   - O(n²) with n=1000 → 1,000,000 operations
+  Carbon Emissions:   0.0001 gCO2
+  Footprint Level:    [#.........]  Excellent
+  Estimated CPU Time: 14.30 ms
+  Energy Consumption: 0.000258 Wh
+  Rating:             Excellent  [5/5]
 
-2. **Calculate CPU Cycles**:
-   ```
-   cycles = operations × base_instructions / instructions_per_cycle
-   ```
+  -- ENVIRONMENTAL EQUIVALENTS --
 
-3. **Calculate Execution Time**:
-   ```
-   time_seconds = cycles / (CPU_frequency_GHz × 10^9)
-   ```
+  Driving:              0.0 meters
+  Trees needed:         0.0000 tree-days
+  Smartphone charges:   0.0 charges
+     Minimal environmental impact - Great job!
 
-4. **Calculate Energy**:
-   ```
-   energy_Wh = CPU_power_W × time_hours
-   ```
+  -- FUNCTION-LEVEL ANALYSIS --
 
-5. **Calculate Carbon**:
-   ```
-   carbon_grams = energy_Wh × carbon_intensity / 1000
-   ```
+  Function                   Complexity     Carbon(gCO2)   Time(ms)
+  --------------------------------------------------------------------
+  bubbleSort                 O(n^2)         0.0001         14.29
+  main                       O(1)           0.0000         0.00
+  printArray                 O(n)           0.0000         0.01
 
-### 4. Optimization Suggestions
+  [!] Hotspot: bubbleSort -- has the highest carbon emissions
 
-The engine detects patterns like:
-- Nested loops → Suggest HashMaps for O(1) lookup
-- Inefficient sorting → Suggest QuickSort/MergeSort
-- Recursive Fibonacci → Suggest dynamic programming
-- Linear search in sorted data → Suggest binary search
+  -- OPTIMIZATION SUGGESTIONS --
 
----
+  +----------------------------------------------------------+
+  | [X] Suggestion #1 -- CRITICAL PRIORITY
+  +----------------------------------------------------------+
+  |   Function:   bubbleSort
+  |   Type:       Algorithm Replacement
+  |   Inefficient sorting algorithm detected. Use QuickSort, MergeSort, or Arrays.sort().
+  |   [X] Current:   O(n^2)
+  |   [+] Suggested: O(n log n)
+  |   [$] Saves: 0.0001 gCO2  (99.0% reduction)
+  +----------------------------------------------------------+
 
-## 📊 Sample Output
-
-### Analyzing BubbleSort.java
-
-```
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║                  EcoCode Analyzer - Carbon Emission Report                    ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
-
-File: BubbleSort.java
-Analysis Date: 2024-01-20T15:30:00
-
-┌─ Overall Carbon Footprint ────────────────────────────────────
-🚨 Total Carbon Emissions: 12.3456 gCO₂
-Total Estimated Time: 1250.50 ms
-Rating: Poor ⭐⭐
-
-┌─ Environmental Impact Equivalents ────────────────────────────
-🚗 Driving: 102.8 meters
-🌳 Trees needed: 0.00059 tree-years
-📱 Smartphone charges: 1.5 charges
-   Moderate environmental impact - Room for optimization 🌍
-
-┌─ Function-Level Analysis ─────────────────────────────────────
-Function                  Time Complexity  Carbon (gCO₂)   Time (ms)
-────────────────────────────────────────────────────────────────────
-bubbleSort               O(n²)            12.2345         1248.20
-printArray               O(n)             0.0811          2.30
-
-⚠️  Hotspot: bubbleSort has the highest carbon emissions
-
-┌─ Optimization Suggestions ────────────────────────────────────
-🚨 Suggestion #1 - High Priority
-  Function: bubbleSort
-  Type: ALGORITHM_REPLACEMENT
-  Description: Inefficient sorting algorithm detected. Use QuickSort or Arrays.sort()
-  ❌ Current: O(n²)
-  ✅ Suggested: O(n log n)
-  💰 Potential Savings: 11.2348 gCO₂ (91.2% reduction)
+  ----------------------------------------------------------
+  EcoCode Analyzer v1.0.0  |  Making Code Greener
 ```
 
 ---
 
-## 📁 Project Structure
+## Algorithm Comparison
+
+The tool ships with 7 sample files covering the full Big-O complexity spectrum:
+
+| File | Algorithm | Time Complexity | Notes |
+|------|-----------|-----------------|-------|
+| `HashMapLookup.java` | HashMap get/put | O(1) | Best-case constant time |
+| `BinarySearch.java` | Binary Search | O(log n) | Divide-and-conquer search |
+| `LinearSearch.java` | Linear Search | O(n) | Sequential scan |
+| `QuickSort.java` | Quick Sort | O(n log n) | Efficient in-place sort |
+| `BubbleSort.java` | Bubble Sort | O(n²) | Classic inefficient sort |
+| `Fibonacci.java` | Recursive Fibonacci | O(2^n) | Exponential — no memoization |
+| `MatrixMultiply.java` | Matrix Multiplication | O(n³) | Cubic nested loops |
+
+---
+
+## Project Structure
 
 ```
-VITyarthi_Java/
-├── src/
-│   ├── main/
-│   │   ├── java/com/ecocode/
-│   │   │   ├── Main.java                      # Entry point
-│   │   │   ├── core/
-│   │   │   │   ├── CodeAnalyzer.java         # Main orchestrator
-│   │   │   │   ├── ComplexityDetector.java   # Complexity analysis
-│   │   │   │   ├── CarbonCalculator.java     # Emission calculation
-│   │   │   │   └── OptimizationEngine.java   # Suggestions generator
-│   │   │   ├── models/
-│   │   │   │   ├── Complexity.java           # Big O enum
-│   │   │   │   ├── ComplexityResult.java     # Analysis result
-│   │   │   │   ├── CarbonReport.java         # Complete report
-│   │   │   │   ├── FunctionAnalysis.java     # Per-function metrics
-│   │   │   │   ├── OptimizationSuggestion.java
-│   │   │   │   ├── EnvironmentalMetrics.java
-│   │   │   │   └── CodeFile.java
-│   │   │   └── ui/
-│   │   │       └── ReportFormatter.java      # Console output formatter
-│   │   └── resources/
-│   │       └── sample-code/                   # Test files
-│   │           ├── BubbleSort.java
-│   │           ├── Fibonacci.java
-│   │           └── BinarySearch.java
-│   └── test/java/                             # Unit tests
-├── docs/
-│   ├── diagrams/                              # UML diagrams
-│   └── report/                                # Project report
-├── statement.md                               # Problem statement
-├── README.md                                  # This file
-└── pom.xml                                    # Maven configuration
+Eco-Code/
++-- src/
+|   +-- main/
+|   |   +-- java/com/ecocode/
+|   |   |   +-- Main.java                    # Entry point, interactive menu, demo mode
+|   |   |   +-- core/
+|   |   |   |   +-- CodeAnalyzer.java        # Orchestrates analysis pipeline
+|   |   |   |   +-- ComplexityDetector.java  # AST-based Big-O detection
+|   |   |   |   +-- CarbonCalculator.java    # IEEE carbon emission model
+|   |   |   |   +-- OptimizationEngine.java  # Generates improvement suggestions
+|   |   |   +-- models/
+|   |   |   |   +-- Complexity.java          # Big-O enum (O(1) ... O(n!))
+|   |   |   |   +-- ComplexityResult.java    # Per-method analysis result
+|   |   |   |   +-- CarbonReport.java        # Full file report + hotspot detection
+|   |   |   |   +-- FunctionAnalysis.java    # Per-function metrics
+|   |   |   |   +-- OptimizationSuggestion.java
+|   |   |   |   +-- EnvironmentalMetrics.java
+|   |   |   |   +-- CodeFile.java
+|   |   |   +-- ui/
+|   |   |       +-- ReportFormatter.java     # ANSI terminal output formatter
+|   |   +-- resources/
+|   |       +-- sample-code/                 # 7 sample algorithms for demo/testing
+|   |           +-- BubbleSort.java
+|   |           +-- BinarySearch.java
+|   |           +-- Fibonacci.java
+|   |           +-- QuickSort.java
+|   |           +-- LinearSearch.java
+|   |           +-- MatrixMultiply.java
+|   |           +-- HashMapLookup.java
+|   +-- test/java/                           # Unit tests
++-- target/
+|   +-- ecocode-analyzer.jar                 # Runnable fat JAR (all deps included)
++-- pom.xml                                  # Maven build configuration
++-- statement.md                             # Problem statement
++-- README.md                                # This file
 ```
 
 ---
 
-## 🧪 Testing
+## Technology Stack
+
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| Language | Java 17 (compiled), Java 25 (runtime) | Core implementation |
+| Build Tool | Apache Maven 3.x | Dependency management, packaging |
+| AST Parser | JavaParser 3.25.4 | Source code parsing and traversal |
+| ANSI Colors | Jansi 2.4.0 | Terminal color output on all platforms |
+| Packaging | Maven Shade Plugin | Fat JAR with all dependencies bundled |
+
+---
+
+## Carbon Calculation Model
+
+The emission calculation follows five steps using the IEEE software energy estimation model:
+
+**Step 1 — Estimate Operations**
+
+```
+operations = complexity.estimate(n=1000)
+  e.g.  O(n)   -> 1,000 operations
+        O(n^2) -> 1,000,000 operations
+```
+
+**Step 2 — CPU Cycles**
+
+```
+cycles = operations * BASE_INSTRUCTIONS_PER_OPERATION
+       / INSTRUCTIONS_PER_CYCLE
+```
+
+**Step 3 — Execution Time**
+
+```
+time_seconds = cycles / (CPU_FREQUENCY_GHz * 10^9)
+```
+
+**Step 4 — Energy**
+
+```
+energy_Wh = CPU_POWER_W * time_seconds / 3600
+  CPU_POWER_W = 65W  (average desktop processor)
+```
+
+**Step 5 — Carbon Emissions**
+
+```
+carbon_gCO2 = energy_Wh * CARBON_INTENSITY / 1000
+  CARBON_INTENSITY = 475 gCO2/kWh  (global average grid)
+```
+
+**Complexity Ordering (by severity):**
+
+```
+O(1) < O(log n) < O(n) < O(n log n) < O(n^2) < O(n^3) < O(2^n) < O(n!)
+```
+
+---
+
+## Testing
 
 ### Run Unit Tests
 
@@ -337,71 +422,29 @@ mvn test
 ### Test with Sample Files
 
 ```bash
-# Test with inefficient code (O(n²))
+# Efficient algorithm (O(1))
+java -jar target/ecocode-analyzer.jar src/main/resources/sample-code/HashMapLookup.java
+
+# Quadratic algorithm (O(n^2)) -- should show suggestion to optimize
 java -jar target/ecocode-analyzer.jar src/main/resources/sample-code/BubbleSort.java
 
-# Test with exponential code (O(2^n))
+# Exponential algorithm (O(2^n)) -- most carbon
 java -jar target/ecocode-analyzer.jar src/main/resources/sample-code/Fibonacci.java
 
-# Test with efficient code (O(log n))
+# Logarithmic algorithm (O(log n))
 java -jar target/ecocode-analyzer.jar src/main/resources/sample-code/BinarySearch.java
 ```
 
-### Expected Behavior
+### Expected Results
 
-| Test File | Expected Complexity | Expected Rating | Should Suggest |
-|-----------|-------------------|-----------------|----------------|
-| BubbleSort.java | O(n²) | Poor | ✅ Use QuickSort |
-| Fibonacci.java | O(2^n) | Very Poor | ✅ Use DP/Memoization |
-| BinarySearch.java | O(log n) | Excellent | ❌ Already optimal |
+| Sample File | Detected Complexity | Hotspot | Suggestion Expected |
+|-------------|--------------------|---------|--------------------|
+| `HashMapLookup.java` | O(1) | None | None (already optimal) |
+| `BinarySearch.java` | O(log n) | None | None (already optimal) |
+| `LinearSearch.java` | O(n) | None | None |
+| `QuickSort.java` | O(n log n) | None | None |
+| `BubbleSort.java` | O(n²) | bubbleSort | Use QuickSort / Arrays.sort() |
+| `Fibonacci.java` | O(2^n) | fibonacci | Use dynamic programming |
+| `MatrixMultiply.java` | O(n³) | multiply | Algorithm optimization |
 
----
 
-## 🚀 Future Enhancements
-
-### Phase 2
-- [ ] Full Python/JavaScript/C++ parser implementation
-- [ ] IDE plugins (IntelliJ IDEA, VS Code, Eclipse)
-- [ ] Real-time analysis during coding
-- [ ] CI/CD integration (GitHub Actions, GitLab CI)
-
-### Phase 3
-- [ ] Machine learning for advanced pattern detection
-- [ ] Web-based dashboard with charts
-- [ ] Team analytics and leaderboards
-- [ ] Carbon offsetting integration
-
-### Phase 4
-- [ ] Research paper publication
-- [ ] Open-source community building
-- [ ] Industry partnerships
-- [ ] Green software certification program
-
----
-
-## 📜 License
-
-This project is developed for educational purposes as part of the VITyarthi project.
-
----
-
-## Screenshots
-Result-->
-
-1. Analyze Single File  
-![alt text](<Screenshot 2025-11-24 180730.png>)
-![alt text](<Screenshot 2025-11-24 180745.png>)
-
-2. About
-![alt text](image.png)
-
-3. Help
-![alt text](image-1.png)
-
-<div align="center">
-
-**Making Software Greener, One Line at a Time** 🌱
-
-*Built with ❤️ for a sustainable future*
-
-</div>

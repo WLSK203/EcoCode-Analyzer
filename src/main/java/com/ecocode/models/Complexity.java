@@ -9,8 +9,8 @@ public enum Complexity {
     O_LOG_N("O(log n)", "Logarithmic", 2.0),
     O_N("O(n)", "Linear", 3.0),
     O_N_LOG_N("O(n log n)", "Linearithmic", 4.0),
-    O_N_SQUARED("O(n²)", "Quadratic", 5.0),
-    O_N_CUBED("O(n³)", "Cubic", 6.0),
+    O_N_SQUARED("O(n^2)", "Quadratic", 5.0),
+    O_N_CUBED("O(n^3)", "Cubic", 6.0),
     O_2_POW_N("O(2^n)", "Exponential", 7.0),
     O_N_FACTORIAL("O(n!)", "Factorial", 8.0),
     UNKNOWN("Unknown", "Unknown", 0.0);

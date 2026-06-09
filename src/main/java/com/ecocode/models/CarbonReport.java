@@ -154,14 +154,36 @@ public class CarbonReport {
     }
 
     /**
-     * Get a summary rating based on total emissions
+     * Returns the worst (highest severity) complexity found across all functions.
+     * Used to drive the rating so that O(n^2) files never show "Excellent".
+     */
+    public Complexity getWorstComplexity() {
+        return functionAnalyses.stream()
+                .map(fa -> fa.getComplexityResult() != null
+                        ? fa.getComplexityResult().getTimeComplexity()
+                        : Complexity.UNKNOWN)
+                .max(java.util.Comparator.comparingDouble(Complexity::getSeverity))
+                .orElse(Complexity.UNKNOWN);
+    }
+
+    /**
+     * Get a summary rating based on the worst algorithmic complexity in the file.
+     * Carbon gram thresholds are NOT used here because sample files with O(n^3)
+     * still emit tiny gCO2 values at n=1000, which would always read as "Excellent".
      */
     public String getEmissionRating() {
-        if (totalCarbonEmissions < 1.0)  return "Excellent  [5/5]";
-        if (totalCarbonEmissions < 5.0)  return "Good       [4/5]";
-        if (totalCarbonEmissions < 10.0) return "Average    [3/5]";
-        if (totalCarbonEmissions < 50.0) return "Poor       [2/5]";
-        return                                  "Very Poor  [1/5]";
+        Complexity worst = getWorstComplexity();
+        return switch (worst) {
+            case O_1            -> "Optimal    [5/5]";
+            case O_LOG_N        -> "Excellent  [5/5]";
+            case O_N            -> "Good       [4/5]";
+            case O_N_LOG_N      -> "Good       [4/5]";
+            case O_N_SQUARED    -> "Poor       [2/5]";
+            case O_N_CUBED      -> "Bad        [1/5]";
+            case O_2_POW_N      -> "Critical   [0/5]";
+            case O_N_FACTORIAL  -> "Critical   [0/5]";
+            default             -> "Unknown";
+        };
     }
 
     @Override
